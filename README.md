@@ -19,7 +19,14 @@ Other Mopinion SDK's are also available:
 - [Using callback mode](#callback-mode)
 - [Edit triggers](#edit-triggers)
 
-## Release notes for version 1.0.0-beta-19
+## Release notes for version 1.0.0-beta-20
+
+### Changes in 1.0.0-beta-20
+- Fixed hard chrash that happened for some forms with a bar rating, MOP-3653.
+- Modified slide-in size and offset calculations for MOP-3646.
+- Fix; slide-in forms now also scroll-up with on screen keyboard.
+- Introduces new method `semanticVersionString()`.
+
 ### Changes in 1.0.0
 - New native implementation that doesn't require react-native.
 - Built with Xcode 14.2, tested on iOS 16.
@@ -45,9 +52,13 @@ Install the Mopinion Mobile SDK Framework via either the Swift Package Manager o
 3. In Xcode 14, from the menu, select `File -> Add Packages…`.  
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
-5. TODO: From the drop-down button `Dependency Rule` , choose `Exact Version` and in the version field enter `0.5.2-swiftpm`.
-6. Click the button `Add Package`. A package product selection panel appears.
-7. Choose `MopinionSDK` and click the button `Add Package`. 
+5. Option: From the drop-down button `Dependency Rule` , choose `Branch` and in the version field enter `dev` (default is main).
+6. Option: From the drop-down button `Dependency Rule` , choose `Exact Version` and in the version field enter `1.0.0-beta-20`.
+7. Option: From the drop-down button `Dependency Rule` , choose `Up to Next Major Version` and in the version field enter `1.0.0`.
+8. Option: From the drop-down button `Dependency Rule` , choose `Up to Next Minor Version` and in the version field enter `1.0.0`.
+9. Click the button `Add Package`. A package product selection panel appears.
+10. Choose `MopinionSDK` and click the button `Add Package`. 
+11. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
 
 <br>
 
