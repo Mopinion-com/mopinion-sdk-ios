@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.name         = "MopinionSDK"
-  s.version      = "1.0.0-beta-20"
+  s.version      = "1.0.0-beta-21"
   s.summary      = "Mopinion iOS SDK"
   s.description  = "Mopinion mobile SDK for iOS. Build dynamic customizable customer feedback forms for your iOS app."
   s.homepage     = "https://mopinion.com"
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target  = '12.0'
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  s.source = {:http => "https://github.com/mopinion-com/mopinion-sdk-ios/releases/download/1.0.0-beta-20/MopinionSDK-1.0.0-beta-20.xcframework.zip"}
+  s.source = {:http => "https://github.com/mopinion-com/mopinion-sdk-ios/releases/download/1.0.0-beta-21/MopinionSDK-1.0.0-beta-21.xcframework.zip"}
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.ios.vendored_frameworks = 'MopinionSDK.xcframework'
