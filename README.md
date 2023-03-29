@@ -19,10 +19,12 @@ Other Mopinion SDK's are also available:
 - [Using callback mode](#callback-mode)
 - [Edit triggers](#edit-triggers)
 
-## Release notes for version 1.0.0-beta-21
+## Release notes for version 1.0.0-beta-22
 
-### Changes in 1.0.0-beta-21
-- Disabled hiding the page navigation buttons until a future version implements the automatic navigation to next page. This to prevent issue MOP-3645 where users couldn't not navigate to next page.
+### Changes in 1.0.0-beta-22
+- Appearance: MOP-3711 replaced back arrow by closing cross.
+- MOP-3645 Automatic navigation between pages and hiding on page navigation buttons.
+- Partly implemented MOP-3689 hiding of submit button, but not yet the actual auto-submit as it shows issues.
 
 ### Changes in 1.0.0
 - New native implementation that doesn't require react-native.
@@ -52,7 +54,7 @@ The Swift Package Collections panel appears.
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
 	- `Branch` and in the version field enter `dev` (default is main).
-	- `Exact Version` and in the version field enter `1.0.0-beta-21`.
+	- `Exact Version` and in the version field enter `1.0.0-beta-22`.
 	- `Up to Next Major Version` and in the version field enter `1.0.0`.
 	- `Up to Next Minor Version` and in the version field enter `1.0.0`.
 6. Click the button `Add Package`. A package product selection panel appears.

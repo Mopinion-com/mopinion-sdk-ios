@@ -1,6 +1,9 @@
 # Changelog for MopinionSDK iOS
 
 
+# 1.0.0-beta-21
+- Disabled hiding the page navigation buttons until a future version implements the automatic navigation to next page. This to prevent issue MOP-3645 where users couldn't not navigate to next page.
+
 # 1.0.0-beta-20
 
 - Fixed hard crash that happened for some forms with a bar rating, MOP-3653.
