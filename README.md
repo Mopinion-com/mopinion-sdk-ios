@@ -19,20 +19,27 @@ Other Mopinion SDK's are also available:
 - [Using callback mode](#callback-mode)
 - [Edit triggers](#edit-triggers)
 
-## Release notes for version 1.0.0-beta-22
+## Release notes for version 1.0.0-beta-23
 
-### Changes in 1.0.0-beta-22
-- Appearance: MOP-3711 replaced back arrow by closing cross.
-- MOP-3645 Automatic navigation between pages and hiding on page navigation buttons.
-- Partly implemented MOP-3689 hiding of submit button, but not yet the actual auto-submit as it shows issues.
+### Changes in 1.0.0-beta-23
+- Use compact deployment API.
+- Fix: MOP-3681 Transparent background for branding.
+- Fully implemented MOP-3689 auto-submit.
+- Fix issue MOP-3708 multiple taps on page navigation and submit.
+- MOP-3709 hide not-yet implemented blocktypes.
+- MOP-3710 visual feedback on page navigation and submit buttons.
+- Fix issue with some webview forms doing double work.
+- Removed background blur on iOS 12. 
 
 ### Changes in 1.0.0
 - New native implementation that doesn't require react-native.
-- Built with Xcode 14.2, tested on iOS 16.
+- Built with Xcode 14.3, tested on iOS 16.
 - Support for partial height forms.
 - Minimum iOS version raised to 12.
 - Introduced new state `NO_FORM_WILL_OPEN` for callbacks.
 - Introduces new method `semanticVersionString()`.
+- Support for automatic page navigation and hiding page navigation buttons.
+- Support for auto-submitting forms and hding submit button.
 
 ### Remarks
 - This readme is also included in the GitHub release, which is repackaged for Swift Package Manager. 
@@ -54,7 +61,7 @@ The Swift Package Collections panel appears.
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
 	- `Branch` and in the version field enter `dev` (default is main).
-	- `Exact Version` and in the version field enter `1.0.0-beta-22`.
+	- `Exact Version` and in the version field enter `1.0.0-beta-23`.
 	- `Up to Next Major Version` and in the version field enter `1.0.0`.
 	- `Up to Next Minor Version` and in the version field enter `1.0.0`.
 6. Click the button `Add Package`. A package product selection panel appears.
