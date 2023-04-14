@@ -1,5 +1,13 @@
 # Changelog for MopinionSDK iOS
 
+# 1.0.0-beta-23
+- Transparent background for branding.
+- Fully implemented auto-submit.
+- Fix issue MOP-3708.
+- Implemented MOP-3709, 3710.
+- Fix issue with some webview forms doing double work.
+- Removed background blur on iOS 12. 
+
 # 1.0.0-beta-22
 - Appearance: replaced back arrow by closing cross.
 - Support for automatic page navigation and hiding page navigation buttons.
