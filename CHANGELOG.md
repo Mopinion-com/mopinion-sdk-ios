@@ -1,5 +1,12 @@
 # Changelog for MopinionSDK iOS
 
+# 1.0.0-beta-24
+- Don't use, Crash-happy after first form.
+- Implemented default error messages, MOP-3701.
+- fix: jumping layout for MOP-3702.
+- Color and size of thumbs, MOP-3702.
+- Layout spacing multiple choice, MOP-3713.
+
 # 1.0.0-beta-23
 - Transparent background for branding.
 - Fully implemented auto-submit.

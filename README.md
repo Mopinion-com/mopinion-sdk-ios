@@ -19,13 +19,13 @@ Other Mopinion SDK's are also available:
 - [Using callback mode](#callback-mode)
 - [Edit triggers](#edit-triggers)
 
-## Release notes for version 1.0.0-beta-24
+## Release notes for version 1.0.0-beta-25
 
-### Changes in 1.0.0-beta-24
-- Implemented default error messages, MOP-3701.
-- fix: jumping layout for MOP-3702.
-- Color and size of thumbs, MOP-3702.
-- Layout spacing multiple choice, MOP-3713.
+### Changes in 1.0.0-beta-25
+- fixes crashes from beta-24 and memory leaks for iOS 12, 13-15 and 16.
+- Navigation buttons: shadow, font size, weight and icon spacing, MOP-3703.
+- Back button styling, MOP-3706.
+- For iOS 13+, all slide-in forms, including full or partial height, will open as Page Sheet, other forms will open full-screen. 
 
 ### Changes in 1.0.0
 - New native implementation that doesn't require react-native.
@@ -57,7 +57,7 @@ The Swift Package Collections panel appears.
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
 	- `Branch` and in the version field enter `dev` (default is main).
-	- `Exact Version` and in the version field enter `1.0.0-beta-24`.
+	- `Exact Version` and in the version field enter `1.0.0-beta-25`.
 	- `Up to Next Major Version` and in the version field enter `1.0.0`.
 	- `Up to Next Minor Version` and in the version field enter `1.0.0`.
 6. Click the button `Add Package`. A package product selection panel appears.
