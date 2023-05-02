@@ -1,5 +1,12 @@
 # Changelog for MopinionSDK iOS
 
+# 1.0.0-beta-25
+- Fixes crashes from beta-24 and memory leaks for iOS 12, 13-15 and 16.
+- Fix: jumping layout for radio buttons, MOP-3700.
+- Navigation buttons: shadow, font size, weight and icon spacing, MOP-3703.
+- Page Back button styling, MOP-3706.
+- For iOS 13+, all slide-in forms, including full or partial height, will open as Page Sheet, other forms will open full-screen.
+
 # 1.0.0-beta-24
 - Don't use, Crash-happy after first form.
 - Implemented default error messages, MOP-3701.

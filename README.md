@@ -15,17 +15,18 @@ Other Mopinion SDK's are also available:
 - [Installation](#install)
 - [Implement the SDK](#implement)
 - [Submitting extra data](#extra-data)
-- [Evaluate if a form will open](#evaluate-conditions)
+- [Evaluate if a form will open](#evaluate-conditions)beta-26
 - [Using callback mode](#callback-mode)
 - [Edit triggers](#edit-triggers)
 
-## Release notes for version 1.0.0-beta-25
+## Release notes for version 1.0.0-beta-26
 
-### Changes in 1.0.0-beta-25
-- fixes crashes from beta-24 and memory leaks for iOS 12, 13-15 and 16.
-- Navigation buttons: shadow, font size, weight and icon spacing, MOP-3703.
-- Back button styling, MOP-3706.
-- For iOS 13+, all slide-in forms, including full or partial height, will open as Page Sheet, other forms will open full-screen. 
+### Changes in 1.0.0-beta-26
+- Custom theme color for all text borders, MOP-3705.
+- Colored focus style for all selected text borders in multiple choice and radio, contact fields, text fields, MOP-3705.
+- Color border of selected radio buttons, check boxes, GCR buttons, category buttons and screenshot checkbox, MOP-3712.
+- Fix: Color border of selected radio buttons and checkboxes also for iOS 12, they remained gray.
+- Fix: prevent  UITableViewAlertForLayoutOutsideViewHierarchy alerts.
 
 ### Changes in 1.0.0
 - New native implementation that doesn't require react-native.
@@ -57,7 +58,7 @@ The Swift Package Collections panel appears.
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
 	- `Branch` and in the version field enter `dev` (default is main).
-	- `Exact Version` and in the version field enter `1.0.0-beta-25`.
+	- `Exact Version` and in the version field enter `1.0.0-beta-26`.
 	- `Up to Next Major Version` and in the version field enter `1.0.0`.
 	- `Up to Next Minor Version` and in the version field enter `1.0.0`.
 6. Click the button `Add Package`. A package product selection panel appears.
