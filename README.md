@@ -15,18 +15,16 @@ Other Mopinion SDK's are also available:
 - [Installation](#install)
 - [Implement the SDK](#implement)
 - [Submitting extra data](#extra-data)
-- [Evaluate if a form will open](#evaluate-conditions)beta-26
+- [Evaluate if a form will open](#evaluate-conditions)
 - [Using callback mode](#callback-mode)
 - [Edit triggers](#edit-triggers)
 
-## Release notes for version 1.0.0-beta-26
+## Release notes for version 1.0.0-beta-27
 
-### Changes in 1.0.0-beta-26
-- Custom theme color for all text borders, MOP-3705.
-- Colored focus style for all selected text borders in multiple choice and radio, contact fields, text fields, MOP-3705.
-- Color border of selected radio buttons, check boxes, GCR buttons, category buttons and screenshot checkbox, MOP-3712.
-- Fix: Color border of selected radio buttons and checkboxes also for iOS 12, they remained gray.
-- Fix: prevent  UITableViewAlertForLayoutOutsideViewHierarchy alerts.
+### Changes in 1.0.0-beta-27
+- Hide errors on change for contact, text field and text view block, MOP-3707.
+- fix: process BR in section break, MOP-3776.
+- Resized field to fit standard thank-you header on iPhone SE2.
 
 ### Changes in 1.0.0
 - New native implementation that doesn't require react-native.
@@ -58,7 +56,7 @@ The Swift Package Collections panel appears.
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
 	- `Branch` and in the version field enter `dev` (default is main).
-	- `Exact Version` and in the version field enter `1.0.0-beta-26`.
+	- `Exact Version` and in the version field enter `1.0.0-beta-27`.
 	- `Up to Next Major Version` and in the version field enter `1.0.0`.
 	- `Up to Next Minor Version` and in the version field enter `1.0.0`.
 6. Click the button `Add Package`. A package product selection panel appears.

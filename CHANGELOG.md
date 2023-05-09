@@ -1,16 +1,21 @@
 # Changelog for MopinionSDK iOS
 
+# 1.0.0-beta-26
+- Custom theme color for all text borders, MOP-3705.
+- Colored focus style for all selected text borders.
+- Color border of selected radio buttons, check boxes, GCR buttons, category buttons and screenshot checkbox, MOP-3712.
+
 # 1.0.0-beta-25
 - Fixes crashes from beta-24 and memory leaks for iOS 12, 13-15 and 16.
-- Fix: jumping layout for radio buttons, MOP-3700.
 - Navigation buttons: shadow, font size, weight and icon spacing, MOP-3703.
 - Page Back button styling, MOP-3706.
 - For iOS 13+, all slide-in forms, including full or partial height, will open as Page Sheet, other forms will open full-screen.
 
 # 1.0.0-beta-24
 - Don't use, Crash-happy after first form.
+- fix: jumping layout for radio buttons, MOP-3700.
 - Implemented default error messages, MOP-3701.
-- fix: jumping layout for MOP-3702.
+- fix: jumping layout for thumbs in MOP-3702.
 - Color and size of thumbs, MOP-3702.
 - Layout spacing multiple choice, MOP-3713.
 
