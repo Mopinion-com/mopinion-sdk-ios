@@ -12,60 +12,62 @@ Other Mopinion SDK's are also available:
 ### Contents
 
 - Release notes
-- [Installation](#install)
-- [Implement the SDK](#implement)
-- [Submitting extra data](#extra-data)
-- [Evaluate if a form will open](#evaluate-conditions)
-- [Using callback mode](#callback-mode)
-- [Edit triggers](#edit-triggers)
+- [1. Installation](#install)
+ - [1.1 Install using Swift PM](#install-spm)
+ - [1.2 Install using CocoaPods](#install-cocoapods)
+- [2. Implement the SDK](#implement)
+ - [2.1 Display a form](#display)
+ - [2.2 Submit extra data](#extra-data)
+ - [2.3 Evaluate if a form will open](#evaluate-conditions)
+ - [2.4 Using callback mode](#callback-mode)
+- [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.0.0-beta-27
+## Release notes for version 1.0.0
 
-### Changes in 1.0.0-beta-27
-- Hide errors on change for contact, text field and text view block, MOP-3707.
-- fix: process BR in section break, MOP-3776.
+### New in 1.0.0
+- Introduced new state `NO_FORM_WILL_OPEN` for callbacks.
+- Introduces new method `semanticVersionString()`.
 - Resized field to fit standard thank-you header on iPhone SE2.
+- Support for partial height forms.
+- Support for automatic page navigation and hiding page navigation buttons.
+- Support for auto-submitting forms and hiding submit button.
 
 ### Changes in 1.0.0
 - New native implementation that doesn't require react-native.
 - Built with Xcode 14.3, tested on iOS 16.
-- Support for partial height forms.
 - Minimum iOS version raised to 12.
-- Introduced new state `NO_FORM_WILL_OPEN` for callbacks.
-- Introduces new method `semanticVersionString()`.
-- Support for automatic page navigation and hiding page navigation buttons.
-- Support for auto-submitting forms and hiding submit button.
 
 ### Remarks
-- This readme is also included in the GitHub release, which is repackaged for Swift Package Manager. 
-- TODO: for the instructions for swiftpm, change name branch dev to main before release or omit all the options apart from major version.
+- This readme is also included in the GitHub release, which contains the same SDK binaries repackaged for Swift Package Manager. 
 
 <br>
 
-## <a name="install">Installation</a>
+## <a name="install">1. Installation</a>
 
 Install the Mopinion Mobile SDK Framework via either the Swift Package Manager or the popular dependency manager [Cocoapods](https://cocoapods.org).
 
-### Install via Swift Package Manager in Xcode 14
+### <a name="install-spm">1.1 Install using Swift Package Manager in Xcode 14</a>
 1. If you no longer want to use CocoaPods for your project, then in terminal, at the root folder of your project execute: <br>
-`pod deintegrate`
+`pod deintegrate` <br>
+After that you can optionally remove the `<your-project-name>.xcworkspace` if it is no longer needed.
 
 2. Open your project's `<your-project-name>.xcodeproj` file in Xcode.
 3. In Xcode 14, from the menu, select `File -> Add Packages…`.  
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Branch` and in the version field enter `dev` (default is main).
-	- `Exact Version` and in the version field enter `1.0.0-beta-27`.
+	- `Exact Version` and in the version field enter `1.0.0`.
 	- `Up to Next Major Version` and in the version field enter `1.0.0`.
-	- `Up to Next Minor Version` and in the version field enter `1.0.0`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
 
 <br>
 
-### Install CocoaPods native on ARM based Macs
+### <a name="install-cocoapods">1.2 Install using CocoaPods</a>
+Skip this section if you've installed with swiftpm.
+
+#### 1.2.1 Install CocoaPods native on ARM based Macs
 
 From macOS Monterey 12.1 installation of cocoapods 1.11.2 works out of the box:
 
@@ -73,7 +75,7 @@ From macOS Monterey 12.1 installation of cocoapods 1.11.2 works out of the box:
 sudo gem install cocoapods
 ```
 
-### Install the SDK with CocoaPods
+#### 1.2.2 Install the SDK with CocoaPods
 
 For Xcode 14, make a `Podfile` in root of your project:
 
@@ -93,39 +95,46 @@ After this you should use the newly made `<your-project-name>.xcworkspace` file 
 
 <br>
 
-## <a name="implement">Implement the SDK</a>
+## <a name="implement">2. Implement the SDK</a>
 
+### <a name="display">2.1 The basics to display a form</a>
 In your app code, for instance the `AppDelegate.swift` file, put:
 
 ```swift
 import MopinionSDK
 ...
 // debug mode
-MopinionSDK.load(<MOPINION DEPLOYMENT KEY>, true)
+MopinionSDK.load("<MOPINION DEPLOYMENT KEY>", true)
 // live
-MopinionSDK.load(<MOPINION DEPLOYMENT KEY>)
+MopinionSDK.load("<MOPINION DEPLOYMENT KEY>")
 ```
 
 The `<MOPINION DEPLOYMENT KEY>` should be replaced with your specific deployment key. Copy this key using a web browser from your Mopinion account, in side menu `Data collection`, section `Deployments`, via the button with symbol `<>`.
 
-In a UIViewController, for example `ViewController.swift`, put:
+In an UIViewController, for example `ViewController.swift`, put:
 
 ```swift
 import MopinionSDK
 ...
 MopinionSDK.event(self, "_button")
 ```
-where `"_button"` is the default passive form event.
-You can also make custom events and use them in the Mopinion deployment interface.  
-In the Mopinion system you can enable or disable the feedback form when a user of your app executes the event.
+where `"_button"` is the default name for a passive form event.
+
+You are free to name events after custom events in your app and define them in the Mopinion deployment interface.  
+
+In the Mopinion system you can enable or disable the feedback form when (a user of) your app submits the event. The SDK will ignore unknown events, so you can implement all events beforehand in your app and freely attach/remove forms after your app has been released.
+
 The event could be a touch of a button, at the end of a transaction, proactive, etc.
 
 <br>
 
-## <a name="extra-data">extra data</a>
+## <a name="extra-data">2.2 Submitting extra data</a>
 
-From version `0.3.1` it's also possible to send extra data from the app to your form. 
-This can be done by adding a key and a value to the `data()` method.
+Your app can send extra (string based) data to your form. 
+
+### 2.2.1 Use the data() method
+SDK version `0.3.1` introduced the `data()` method to supply a key and a value.
+
 The data should be added before the `event()` method is called if you want to include the data in the form that comes up for that event.
 
 ```swift
@@ -147,7 +156,7 @@ MopinionSDK.event(self, "_button")
 
 Note: In the set of meta data, the keys are unique. If you re-use a key, the previous value for that key will be overwritten.
 
-## clear extra data
+### 2.2.2 clear extra data
 
 From version `0.3.4` it's possible to remove all or a single key-value pair from the extra data previously supplied with the `data(key,value)` method.
 To remove a single key-value pair use this method:
@@ -174,20 +183,20 @@ MopinionSDK.removeData()
 
 <br>
 
-## <a name="evaluate-conditions">Evaluate if a form will open</a>
+## <a name="evaluate-conditions">2.3 Evaluate if a form will open</a>
 The event() method of the SDK autonomously checks deployment conditions and opens a form, or not.
 
 From SDK version `0.4.6` you can use the evaluate() and related methods to give your app more control on opening a form for proactive events or take actions when no form would have opened.
 
 It can also be used on passive events, but such forms will always be allowed to open.
 
-### Procedure overview
+### 2.3.1 Procedure overview
 
 1. Call the `evaluate()` method and pass it the delegate object that implements the `MopinionOnEvaluateDelegate` protocol.
 2. In your delegate's callback method `mopinionOnEvaluateHandler()`, check the response parameters and retrieve the `formKey` if there is any.
 3. Optionally, pass the `formKey` to the method `openFormAlways()` to open your form directly, ignoring any conditions in the deployment.
 
-### evaluate() method
+### 2.3.2 evaluate() method
 Evaluates whether or not a form would have opened for the specified event. If without errors, the delegate object will receive the `mopinionOnEvaluateHandler()` call with the response.
 
 ```swift
@@ -199,7 +208,7 @@ Parameters:
 * `event`: The name of the event as definied in the deployment. For instance "_button".
 * `onEvaluateDelegate `: The object implementing the `MopinionOnEvaluateDelegate` protocol to handle the `mopinionOnEvaluateHandler()` callback method.
 
-### mopinionOnEvaluateHandler() method
+### 2.3.3 mopinionOnEvaluateHandler() method
 Method where the app receives the response of the evaluate call. Defined by the `MopinionOnEvaluateDelegate` protocol. Note that in case of any system errors this may not be called at all.
 
 ```swift
@@ -212,7 +221,7 @@ Parameters:
 * `formKey`: identifying key of the first feedback form found associated with the event. Only one formKey will be selected even if multiple forms matched the event name in the deployment.
 * `response`: optional dictionary object for extra response details on success/failure and forms. Reserved for future extensions.
 
-### openFormAlways() method
+### 2.3.4 openFormAlways() method
 Opens the form specified by the formkey, regardless of any proactive conditions set in the deployment.
 
 ```swift
@@ -223,7 +232,7 @@ Parameters:
 * `parentView`: Your UIViewController object that can act as a parent view controller for the SDK.
 * `formKey`: key of a feedback form as provided by the mopinionOnEvaluateHandler() call.
 
-### Example of using evaluate()
+### 2.3.5 Example of using evaluate()
 This snippet of pseudo code highlights the key points on how the aforementioned procedure fits together to implement the `MopinionOnEvaluateDelegate` protocol.
 
 ```swift
@@ -262,14 +271,14 @@ class ViewController: UIViewController, MopinionOnEvaluateDelegate {
 
 <br>
 
-## <a name="callback-mode">Using callback mode</a>
+## <a name="callback-mode">2.4 Using callback mode</a>
 By default the SDK manages the feedback form autonomously without further involving your app. 
 SDK version `0.5.0` introduced callbacks to inform your code of certain actions (MopinionCallbackEvent). 
 
 Provide a callback handler to receive a response, containing either data or possible error information. 
 
 
-### Procedure overview
+### 2.4.1 Procedure overview
 
 1. Call the `event()` method and pass it a callback method that implements the `MopinionCallbackEventDelegate.onMopinionEvent` protocol.
 2. In your callback method `onMopinionEvent()`, check the kind of `mopinionEvent` and optionally call `didSucceed()` or `hasErrors()` on the `response` to check for errors.
@@ -281,7 +290,7 @@ You can also provide an optional error-callback handler to `event()` to seperate
 
 <br>
 
-### Callback variants of the `event()` method
+### 2.4.2 Callback variants of the `event()` method
 Triggers an event you defined in your deployment to open a form and receive MopinionCallbackEvent callbacks. If you don't specify a failHandler, the callback handler will also receive error responses.
 
 
@@ -302,7 +311,7 @@ Parameters:
 
 <br>
 
-### Callback methods `onMopinionEvent()` and `onMopinionEventError()`
+### 2.4.3 Callback methods `onMopinionEvent()` and `onMopinionEventError()`
 
 These methods you implement in your code to receive MopinionCallbackEvents. They have the same parameters to pass you a response with optional additional information. 
 What information is provided depends on the type of `MopinionCallbackEvent` and its origin.
@@ -324,7 +333,7 @@ Parameters:
 
 <br>
 
-### MopinionResponse object
+### 2.4.4 MopinionResponse object
 The data collection present in this object depends on the kind of MopinionCallbackEvent and its origin. The data is a key-value collection. Both data and errors can be missing. The response object contains methods to inspect and retrieve them. 
 
 
@@ -373,7 +382,7 @@ The `getError()` method might return `nil`.
 
 <br>
 
-### Callback handler example to run code after send
+### 2.4.5 Callback handler example to run code after send
 Pseudo code to show the usage of the `event()` callback with closures and some involved objects to implement running code after send.
 You must wait for the form to be closed after send before running any code affecting your own UI.
 
@@ -418,7 +427,7 @@ class YourViewController: UIViewController, MopinionOnEvaluateDelegate {
 
 <br>
 
-## <a name="edit-triggers">Edit triggers</a>
+## <a name="edit-triggers">3. Edit triggers</a>
 
 In the Mopinion deployment editor you can define event names and triggers that will work with the SDK event names that you used in your app.
 Login to your Mopinion account and go to Data collection, Deployments to use this functionality.

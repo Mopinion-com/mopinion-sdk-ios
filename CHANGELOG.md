@@ -1,5 +1,10 @@
 # Changelog for MopinionSDK iOS
 
+# 1.0.0-beta-27
+- Hide errors on change for contact, text field and text view block, MOP-3707.
+- fix: process BR in section break, MOP-3776.
+- Resized field to fit standard thank-you header on iPhone SE2.
+
 # 1.0.0-beta-26
 - Custom theme color for all text borders, MOP-3705.
 - Colored focus style for all selected text borders.
