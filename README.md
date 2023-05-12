@@ -27,7 +27,6 @@ Other Mopinion SDK's are also available:
 ### New in 1.0.0
 - Introduced new state `NO_FORM_WILL_OPEN` for callbacks.
 - Introduces new method `semanticVersionString()`.
-- Resized field to fit standard thank-you header on iPhone SE2.
 - Support for partial height forms.
 - Support for automatic page navigation and hiding page navigation buttons.
 - Support for auto-submitting forms and hiding submit button.

@@ -1,5 +1,10 @@
 # Changelog for MopinionSDK iOS
 
+# 1.0.0-RC
+- refactor: seperate webform and in-app form work, MOP-3855.
+- fix: prevent crash after restart conversational form, MOP-3869.
+- design: refinement of footer logo and text.
+
 # 1.0.0-beta-27
 - Hide errors on change for contact, text field and text view block, MOP-3707.
 - fix: process BR in section break, MOP-3776.
