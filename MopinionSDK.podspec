@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://mopinion.com"
 
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
-  s.license      = { :type => "MIT", :file => "LICENSE" }
+  s.license      = { :type => "MIT" }
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   s.authors      = { "Floris Snuif" => "floris@mopinion.com", "Anwar Jebali" => "anwar@mopinion.com", "Kees van Welsenis" => "kvwelsenis@mopinion.com" }
