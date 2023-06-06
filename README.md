@@ -22,22 +22,17 @@ Other Mopinion SDK's are also available:
  - [2.4 Using callback mode](#callback-mode)
 - [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.0.0
+## Release notes for version 1.0.1
 
-### New in 1.0.0
-- Introduced new state `NO_FORM_WILL_OPEN` for callbacks.
-- Introduces new method `semanticVersionString()` to get the version of the SDK.
-- Support for partial height forms.
-- Support for automatic page navigation and hiding page navigation buttons.
-- Support for auto-submitting forms and hiding submit button.
+### New in 1.0.1
+- New error states in type `MopinionError`.
+- Returns a `MopinionError.formConfigFormNotFound` error with a `NO_FORM_WILL_SHOW` via the `onCallbackEventError` if a form specified in the deployment no longer exists.
 
-### Changes in 1.0.0
-- New fully native implementation that doesn't require any react-native, hence easier install.
-- Built with Xcode 14.3, tested on iOS 16.
-- Minimum iOS version raised to 12.
+### Changes in 1.0.1
+- Improved form load time-out handling.
 
 ### Remarks
-- This readme is applicable to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods. 
+- This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods. 
 
 <br>
 
@@ -55,8 +50,8 @@ After that you can optionally remove the `<your-project-name>.xcworkspace` if it
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Exact Version` and in the version field enter `1.0.0`.
-	- `Up to Next Major Version` and in the version field enter `1.0.0`.
+	- `Exact Version` and in the version field enter `1.0.1`.
+	- `Up to Next Major Version` and in the version field enter `1.0.1`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
@@ -82,7 +77,7 @@ For Xcode 14, make a `Podfile` in root of your project:
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
-    pod 'MopinionSDK', '>= 1.0.0'
+    pod 'MopinionSDK', '>= 1.0.1'
 end
 ```
 
@@ -377,7 +372,14 @@ The order in which MopinionCallbackEvents occur is:
 
 #### Reading `response` errors
 Call `response.hasErrors()` , followed by `response.getError()` to get the error object.
-The `getError()` method might return `nil`.
+<br>The `getError()` method might return `nil`.
+
+At the moment there is only one pre-defined error condition:
+
+MopinionCallbackEvent|response.getError()|Meaning
+---|---|---
+NO\_FORM\_WILL\_OPEN|MopinionError.formConfigFormNotFound|The form associated with the event and deployment does not exist
+NO\_FORM\_WILL\_OPEN|any other|Other error prevented loading the form
 
 <br>
 
@@ -415,8 +417,9 @@ class YourViewController: UIViewController, MopinionOnEvaluateDelegate {
             }
 
         }, onCallbackEventError: { (mopinionEvent, response) -> (Void) in
-            let myError = response.getError();
-            print("there was an error during callback: \(String(describing: myError))")
+            if let error = response.getError() {
+                print("there was an error during callback: \(String(describing: error))")
+            }
         } )
     }
 ...

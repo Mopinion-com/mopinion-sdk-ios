@@ -1,6 +1,6 @@
 # Changelog for MopinionSDK iOS
 
-# 1.0.0-RC
+# 1.0.0
 - New fully native implementation that doesn't require any react-native.
 - Built with Xcode 14.3, tested on iOS 16.
 - Support for partial height forms.
