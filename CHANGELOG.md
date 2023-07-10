@@ -1,5 +1,10 @@
 # Changelog for MopinionSDK iOS
 
+# 1.0.1
+- New error states in type `MopinionError`.
+- Returns a `MopinionError.formConfigFormNotFound` error with a `NO_FORM_WILL_SHOW` via the `onCallbackEventError` if a form specified in the deployment no longer exists.
+- Improved form load time-out handling.
+
 # 1.0.0
 - New fully native implementation that doesn't require any react-native.
 - Built with Xcode 14.3, tested on iOS 16.
