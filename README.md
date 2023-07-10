@@ -25,15 +25,14 @@ Other Mopinion SDK's are also available:
 ## Release notes for version 1.0.2
 
 ### New in 1.0.2
-- Implement screenshot for webforms, MOP-3874.
+- Implement screenshot for webforms.
+- Implement disable branding.
 
 ### Changes in 1.0.2
-- More compact keyboard for single line text input field of the text block and the "other option" field of multiple choice or radio button blocks, MOP-3674.
-- Smaller form header in landscape mode for small displays like iPhone SE, MOP-3674.
-- Decrease header font size from 22 to 20, MOP-3962.
-- fix: correct bottom clipping of star labels, MOP-3777.
-- fix: more space for star rating labels, MOP-3777.
-- fix: jumping stars due to recycling issue.
+- More compact keyboard for single line text input field of the text block and the "other option" field of multiple choice or radio button blocks.
+- Smaller form header in landscape mode for small displays like iPhone SE.
+- Decrease header font size from 22 to 20.
+- fix: more space for star rating labels.
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods. 
