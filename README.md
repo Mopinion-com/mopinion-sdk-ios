@@ -25,17 +25,15 @@ Other Mopinion SDK's are also available:
 ## Release notes for version 1.0.2
 
 ### New in 1.0.2
-- Implement screenshot for webforms.
-- Implement disable branding.
+- TODO.
 
 ### Changes in 1.0.2
-- More compact keyboard for single line text input field of the text block and the "other option" field of multiple choice or radio button blocks.
-- Smaller form header in landscape mode for small displays like iPhone SE.
-- Decrease header font size from 22 to 20.
-- fix: more space for star rating labels.
+- Calls to the evaluate(), event(), load() and openFormAlways() methods now execute in serial order.
+- Deprecate method `openFormAlways(:)` in favour of new method `openFormAlways(:formKey:forEvent)`.
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods. 
+- Built with Xcode 15.0, tested on iOS 16.
 
 <br>
 
@@ -43,13 +41,13 @@ Other Mopinion SDK's are also available:
 
 Install the Mopinion Mobile SDK Framework via either the Swift Package Manager or the popular dependency manager [Cocoapods](https://cocoapods.org).
 
-### <a name="install-spm">1.1 Install using Swift Package Manager in Xcode 14</a>
+### <a name="install-spm">1.1 Install using Swift Package Manager in Xcode 15</a>
 1. If you no longer want to use CocoaPods for your project, then in terminal, at the root folder of your project execute: <br>
 `pod deintegrate` <br>
 After that you can optionally remove the `<your-project-name>.xcworkspace` if it is no longer needed.
 
 2. Open your project's `<your-project-name>.xcodeproj` file in Xcode.
-3. In Xcode 14, from the menu, select `File -> Add Packages…`.  
+3. In Xcode 15, from the menu, select `File -> Add Package Dependencies…`.  
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
@@ -64,19 +62,15 @@ The Swift Package Collections panel appears.
 ### <a name="install-cocoapods">1.2 Install using CocoaPods</a>
 Skip this section if you've installed with swiftpm.
 
-#### 1.2.1 Install CocoaPods native on ARM based Macs
+1. Install CocoaPods if you didn't have it installed yet. From macOS Monterey 12.1 installation of cocoapods 1.11.2 works out of the box on ARM based Macs:
 
-From macOS Monterey 12.1 installation of cocoapods 1.11.2 works out of the box:
-
-```sh
+ ```sh
 sudo gem install cocoapods
 ```
 
-#### 1.2.2 Install the SDK with CocoaPods
+2. In the terminal, create a `Podfile` in the folder that contains your Xcode project :
 
-For Xcode 14, make a `Podfile` in root of your project:
-
-```ruby
+ ```ruby
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
@@ -84,11 +78,13 @@ target '<YOUR TARGET>' do
 end
 ```
 
-Install the needed pods:
+3. From that folder, install the needed pods:
 
-`$ pod install`
+ ```sh
+$ pod install
+```
 
-After this you should use the newly made `<your-project-name>.xcworkspace` file to open in Xcode.
+4. After this, going forward you should use the newly created `<your-project-name>.xcworkspace` file to open in Xcode.
 
 <br>
 
@@ -106,7 +102,7 @@ MopinionSDK.load("<MOPINION DEPLOYMENT KEY>", true)
 MopinionSDK.load("<MOPINION DEPLOYMENT KEY>")
 ```
 
-The `<MOPINION DEPLOYMENT KEY>` should be replaced with your specific deployment key. Copy this key using a web browser from your Mopinion account, in side menu `Data collection`, section `Deployments`, via the button with symbol `<>`.
+Replace the `<MOPINION DEPLOYMENT KEY>` by your specific deployment key. Copy this key using a web browser from your Mopinion account, in side menu `Data collection`, section `Deployments`, via the button with symbol `<>`.
 
 In an UIViewController, for example `ViewController.swift`, put:
 
@@ -197,7 +193,7 @@ It can also be used on passive events, but such forms will always be allowed to 
 Evaluates whether or not a form would have opened for the specified event. If without errors, the delegate object will receive the `mopinionOnEvaluateHandler()` call with the response.
 
 ```swift
-public func evaluate( _ event: String, onEvaluateDelegate: MopinionOnEvaluateDelegate )
+func evaluate( _ event: String, onEvaluateDelegate: MopinionOnEvaluateDelegate )
 
 ```
 Parameters:
@@ -219,15 +215,17 @@ Parameters:
 * `response`: optional dictionary object for extra response details on success/failure and forms. Reserved for future extensions.
 
 ### 2.3.4 openFormAlways() method
-Opens the form specified by the formkey, regardless of any proactive conditions set in the deployment.
+Opens the form specified by the formkey for the event, regardless of any proactive conditions set in the deployment.
 
 ```swift
-public func openFormAlways(_ parentView: UIViewController,_ formKey: String) 
+func openFormAlways(_ parentView: UIViewController, formKey: String, forEvent: event) 
 ```
 Parameters:
 
 * `parentView`: Your UIViewController object that can act as a parent view controller for the SDK.
 * `formKey`: key of a feedback form as provided by the mopinionOnEvaluateHandler() call.
+* `forEvent`: The same event as passed to the `evaluate()` call. For instance "_button".
+
 
 ### 2.3.5 Example of using evaluate()
 This snippet of pseudo code highlights the key points on how the aforementioned procedure fits together to implement the `MopinionOnEvaluateDelegate` protocol.
@@ -246,17 +244,17 @@ class ViewController: UIViewController, MopinionOnEvaluateDelegate {
         // the actual result will be in the mopinionOnEvaluateHandler call
     }
 ...
-    // callback handler for protocol MopinionOnEvaluateDelegate
+	// callback handler for protocol MopinionOnEvaluateDelegate
     func mopinionOnEvaluateHandler(hasResult: Bool, event: String, formKey: String?, response: [String : Any]?) {
         if(hasResult) {
             // at least one form was found and all optional parameters are non-null
             // because conditions can change every time, use the form key to open it directly
-            MopinionSDK.openFormAlways(self, formKey!)
+            MopinionSDK.openFormAlways(self, formKey: formKey!, forEvent: event)
         }else{
             if let _ = formKey {
                 // Found form wouldn't open for event
-                // we'll open it anyway using the formKey             
-                MopinionSDK.openFormAlways(self, formKey!)
+                // we'll open it anyway using the formKey and event             
+                MopinionSDK.openFormAlways(self, formKey: formKey!, forEvent: event)
             }else{
                 // no form found for event
                 ...
@@ -443,7 +441,7 @@ The custom defined events can be used in combination with rules/conditions:
 
 * trigger: `passive` or `proactive`. A passive form always shows when the event is triggered and the trigger conditions are met. A proactive form only shows once, you can set the refresh duration after which the form should show again. 
 * submit: allow opening a proactive form until it has been submitted at least once. This affects the trigger rule, to allow opening a form more than once. Support for this appeared in SDK version 0.4.3.
-* percentage (proactive trigger): % of users that should see the form  
-* date: only show the form at at, after or before a specific date or date range  
-* time: only show the form at at, after or before a specific time or time range  
-* target: only show the form for a specific OS (iOS or Android) and optional list of versions.  
+* percentage (proactive trigger): % of users that should see the form
+* date: only show the form at, after or before a specific date or date range
+* time: only show the form at, after or before a specific time or time range
+* target: only show the form for a specific OS (iOS or Android) and optional list of versions.
