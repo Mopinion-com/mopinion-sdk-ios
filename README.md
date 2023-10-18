@@ -22,14 +22,17 @@ Other Mopinion SDK's are also available:
  - [2.4 Using callback mode](#callback-mode)
 - [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.0.2
+## Release notes for version 1.1.0
 
-### New in 1.0.2
-- TODO.
+### New in 1.1.0
+- Page navigation and submit buttons use custom theme colours for background and text.
 
-### Changes in 1.0.2
+### Changes in 1.1.0
 - Calls to the evaluate(), event(), load() and openFormAlways() methods now execute in serial order.
 - Deprecate method `openFormAlways(:)` in favour of new method `openFormAlways(:formKey:forEvent)`.
+- Submit button icon on in-app forms now is same as web forms.
+- Fixed situation where the standard theme colour overruled the custom "All elements background color".
+- Users can continue and close the form after submitting an in-app form while there is no network connection. 
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods. 
@@ -47,12 +50,12 @@ Install the Mopinion Mobile SDK Framework via either the Swift Package Manager o
 After that you can optionally remove the `<your-project-name>.xcworkspace` if it is no longer needed.
 
 2. Open your project's `<your-project-name>.xcodeproj` file in Xcode.
-3. In Xcode 15, from the menu, select `File -> Add Package Dependencies…`.  
+3. In Xcode 15, from the menu, select `File -> Add Package Dependencies…`.
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Exact Version` and in the version field enter `1.0.2`.
-	- `Up to Next Major Version` and in the version field enter `1.0.2`.
+	- `Exact Version` and in the version field enter `1.1.0`.
+	- `Up to Next Major Version` and in the version field enter `1.1.0`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
@@ -74,7 +77,7 @@ sudo gem install cocoapods
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
-    pod 'MopinionSDK', '>= 1.0.2'
+    pod 'MopinionSDK', '>= 1.1.0'
 end
 ```
 
@@ -253,7 +256,7 @@ class ViewController: UIViewController, MopinionOnEvaluateDelegate {
         }else{
             if let _ = formKey {
                 // Found form wouldn't open for event
-                // we'll open it anyway using the formKey and event             
+                // we'll open it anyway using the formKey and event
                 MopinionSDK.openFormAlways(self, formKey: formKey!, forEvent: event)
             }else{
                 // no form found for event
