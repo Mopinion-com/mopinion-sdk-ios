@@ -30,13 +30,13 @@ Other Mopinion SDK's are also available:
 ### Changes in 1.1.0
 - Calls to the evaluate(), event(), load() and openFormAlways() methods now execute in serial order.
 - Deprecate method `openFormAlways(:)` in favour of new method `openFormAlways(:formKey:forEvent)`.
-- Submit button icon on in-app forms now is same as web forms.
+- in-app forms submit button icon now looks the same as in web forms.
 - Fixed situation where the standard theme colour overruled the custom "All elements background color".
-- Users can continue and close the form after submitting an in-app form while there is no network connection. 
+- Fixed: You can close and continue after submitting an in-app form while there is no network connection. 
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods. 
-- Built with Xcode 15.0, tested on iOS 16.
+- Built with Xcode 15.0, tested on iOS 17.
 
 <br>
 
