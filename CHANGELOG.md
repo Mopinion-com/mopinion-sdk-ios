@@ -1,5 +1,12 @@
 # Changelog for MopinionSDK iOS
 
+# 1.0.2
+- Implement screenshot for webforms.
+- Implement disable branding.
+- More compact keyboard for a single line text field in text and multiple choice/radio block.
+- Smaller form header in landscape mode.
+- fix: more space for star rating labels.
+
 # 1.0.1
 - New error states in type `MopinionError`.
 - Returns a `MopinionError.formConfigFormNotFound` error with a `NO_FORM_WILL_SHOW` via the `onCallbackEventError` if a form specified in the deployment no longer exists.
