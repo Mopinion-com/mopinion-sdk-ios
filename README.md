@@ -22,21 +22,19 @@ Other Mopinion SDK's are also available:
  - [2.4 Using callback mode](#callback-mode)
 - [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.1.0
+## Release notes for version 1.1.1
 
-### New in 1.1.0
-- Page navigation and submit buttons use custom theme colours for background and text.
+### New in 1.1.1
+- Adds legend to scoring elements of in-app forms.
+- Implements the randomize option for applicable elements (Radio buttons, Checkbox, Category, Dropdown) of in-app forms.
+- The SDK declares Apple's NSPrivacyAccessedAPITypeReasons for using the UserDefaults API. Our SDK only accesses the data that it has written itself to the UserDefaults. It uses it to store limited functional state, in order to prevent showing a form that the user has already seen.
 
-### Changes in 1.1.0
-- Calls to the evaluate(), event(), load() and openFormAlways() methods now execute in serial order.
-- Deprecate method `openFormAlways(:)` in favour of new method `openFormAlways(:formKey:forEvent)`.
-- in-app forms submit button icon now looks the same as in web forms.
-- Fixed situation where the standard theme colour overruled the custom "All elements background color".
-- Fixed: You can close and continue after submitting an in-app form while there is no network connection. 
+### Changes in 1.1.1
+- Fixed situation where empty in-app forms could cause a crash.
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods. 
-- Built with Xcode 15.0, tested on iOS 17.
+- Built with Xcode 15.3, tested on iOS 17.
 
 <br>
 
@@ -54,8 +52,8 @@ After that you can optionally remove the `<your-project-name>.xcworkspace` if it
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Exact Version` and in the version field enter `1.1.0`.
-	- `Up to Next Major Version` and in the version field enter `1.1.0`.
+	- `Exact Version` and in the version field enter `1.1.1`.
+	- `Up to Next Major Version` and in the version field enter `1.1.1`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
@@ -77,7 +75,7 @@ sudo gem install cocoapods
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
-    pod 'MopinionSDK', '>= 1.1.0'
+    pod 'MopinionSDK', '>= 1.1.1'
 end
 ```
 

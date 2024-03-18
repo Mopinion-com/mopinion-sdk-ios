@@ -1,5 +1,13 @@
 # Changelog for MopinionSDK iOS
 
+# 1.1.0
+- custom theme background/text colours for page navigation and submit buttons.
+- Serialized calls to evaluate(), event(), load() and openFormAlways() methods.
+- Deprecate method `openFormAlways(:)` in favour of new method `openFormAlways(:formKey:forEvent)`.
+- in-app forms submit button icon with paper plane.
+- Fix: custom "All elements background color" now overrules standard theme colour.
+- Fix: can close form and continue after submitting without network connection.
+
 # 1.0.2
 - Implement screenshot for webforms.
 - Implement disable branding.
