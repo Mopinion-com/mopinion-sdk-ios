@@ -1,5 +1,11 @@
 # Changelog for MopinionSDK iOS
 
+# 1.1.1
+- Adds legend to scoring elements of in-app forms.
+- Implements the randomize option for applicable elements (Radio buttons, Checkbox, Category, Dropdown) of in-app forms.
+- The SDK declares Apple's NSPrivacyAccessedAPITypeReasons for using the UserDefaults API. Our SDK only accesses the data that it has written itself to the UserDefaults. It uses it to store limited functional state, in order to prevent showing a form that the user has already seen.
+- Fixed situation where empty in-app forms could cause a crash.
+
 # 1.1.0
 - custom theme background/text colours for page navigation and submit buttons.
 - Serialized calls to evaluate(), event(), load() and openFormAlways() methods.
