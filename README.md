@@ -22,23 +22,22 @@ Other Mopinion SDK's are also available:
  - [2.4 Using callback mode](#callback-mode)
 - [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.1.2
+## Release notes for version 1.1.3
 
-### New in 1.1.2
-- Adds NSPrivacyCollectedDataTypes to Apple's PrivacyInfo, in order to let apps using the SDK pass Xcode privacy reports. Note that actually this should not have been required as the SDK meets the criteria that [Apple states in "... data that may not need to be disclosed include data collected in optional feedback forms ..."](https://developer.apple.com/app-store/app-privacy-details/#optional-disclosure). The collected data types that leave the device are: 
-	- “Other user content” (for all data that a user submits in a form), 
-	- “Photos or videos” (the user can submit a screenshot), 
-	- “Other diagnostic data” (system version and sdk version for support)
+### New in 1.1.3
+- Implements tooltip-questionmark icon/button in elements. Supported from iOS 13.
+- Implements link element.
+- Implements multimedia element.
 
-### Changes in 1.1.2
-- Numeric rating element now highlights only 1 cell.
-- From the form load and submit process, removed 2 time-out alerts that were in English and non-user configurable.
-- Fixed layout issue on iPadOS, where right side elements were placed out of view.
-- Fixed an initialisation issue for empty and inactive deployments.
+### Changes in 1.1.3
+- Navigation skips over empty pages. Also submits the form if it reaches the last page and that has no visible blocks.
+- Fixed a crash in dropdown on empty form.
+- Fixed a situation where users could not submit a form because disabled/invisible contact fields were required.
+- Fixed an issue with proactive events that showed a form on iOS despite that only android was specified as target os. Also, instead of matching only exact iOS versions like 17.5.1, you can now specify major or minor iOS version families. So specifying iOS 17 or 17.5 will now also match version 17.5.1. 
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods. 
-- Built with Xcode 15.3, tested on iOS 17.
+- Built with Xcode 15.4, tested on iOS 17.
 
 <br>
 
@@ -56,8 +55,8 @@ After that you can optionally remove the `<your-project-name>.xcworkspace` if it
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Exact Version` and in the version field enter `1.1.2`.
-	- `Up to Next Major Version` and in the version field enter `1.1.2`.
+	- `Exact Version` and in the version field enter `1.1.3`.
+	- `Up to Next Major Version` and in the version field enter `1.1.3`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
@@ -79,7 +78,7 @@ sudo gem install cocoapods
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
-    pod 'MopinionSDK', '>= 1.1.2'
+    pod 'MopinionSDK', '>= 1.1.3'
 end
 ```
 

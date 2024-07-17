@@ -1,5 +1,15 @@
 # Changelog for MopinionSDK iOS
 
+# 1.1.2
+- Numeric rating element now highlights only 1 cell.
+- From the form load and submit process, removed 2 time-out alerts that were in English and non-user configurable.
+- Adds NSPrivacyCollectedDataTypes to Apple's PrivacyInfo, in order to let apps using the SDK pass Xcode privacy reports. Actually, this should not have been required as the SDK meets the criteria that [Apple states in "... data that may not need to be disclosed include data collected in optional feedback forms ..."](https://developer.apple.com/app-store/app-privacy-details/#optional-disclosure). The collected data types that leave the device are: 
+	- “Other user content” (for all data that a user submits in a form), 
+	- “Photos or videos” (the user can submit a screenshot), 
+	- “Other diagnostic data” (system version and sdk version for support)
+- Fix: layout issue on iPadOS, where right side elements were placed out of view.
+- Fix: initialisation bug for empty and inactive deployments.
+
 # 1.1.1
 - Adds legend to scoring elements of in-app forms.
 - Implements the randomize option for applicable elements (Radio buttons, Checkbox, Category, Dropdown) of in-app forms.
