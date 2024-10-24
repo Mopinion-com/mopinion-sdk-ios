@@ -5,7 +5,7 @@ For this you can include the SDK as a Framework in your Xcode project.
 
 Other Mopinion SDK's are also available:
 
-- [iOS web SDK](https://github.com/mopinion/mopinion-sdk-ios-web)
+- [iOS web SDK](https://github.com/mopinion-com/mopinion-sdk-ios-web)
 - [Android SDK](https://github.com/mopinion-com/mopinion-sdk-android)
 - [Android web SDK](https://github.com/mopinion-com/mopinion-sdk-android-web)
 
@@ -22,21 +22,19 @@ Other Mopinion SDK's are also available:
  - [2.4 Using callback mode](#callback-mode)
 - [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.1.3
+## Release notes for version 1.1.4
 
-### New in 1.1.3
-- Implements tooltip-questionmark icon/button in elements. Supported from iOS 13.
-- Implements link element.
-- Implements multimedia element.
+### New in 1.1.4
+- New behaviour for the deployment condition "Show only to a percentage of users". It supported values from 1-100%, any other value behaved like 100%; starting a session and triggering only again after the number of days as specified by the deployment condition "Refresh session/condition settings per visitor after .. days". <br>Now a percentage value of 0% will not show the associated form and not start a session. Effectively it disables the form until a non-zero percentage is set for this condition.
 
-### Changes in 1.1.3
-- Navigation skips over empty pages. Also submits the form if it reaches the last page and that has no visible blocks.
-- Fixed a crash in dropdown on empty form.
-- Fixed a situation where users could not submit a form because disabled/invisible contact fields were required.
-- Fixed an issue with proactive events that showed a form on iOS despite that only android was specified as target os. Also, instead of matching only exact iOS versions like 17.5.1, you can now specify major or minor iOS version families. So specifying iOS 17 or 17.5 will now also match version 17.5.1. 
+### Changes in 1.1.4
+- Fixed a display bug for long forms with multiple choice (Radio buttons or check box) using "show as buttons". Items that were not selected could sometimes display a small circular tick mark. Scrolling in and out of view made it (dis)appear at random.
+- Fixed some situations with multiple choice where the "other option" box did not fully display.
+- Radio buttons now preserve the text entered in the "other option" box when selecting another radio item and selecting the "other option" radio item again.
+- When showing a webview, the SDK no longer clears all cookies. So app-wide cookies for other webviews within the app are not affected.
 
 ### Remarks
-- This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods. 
+- This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods.
 - Built with Xcode 15.4, tested on iOS 17.
 
 <br>
@@ -55,8 +53,8 @@ After that you can optionally remove the `<your-project-name>.xcworkspace` if it
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Exact Version` and in the version field enter `1.1.3`.
-	- `Up to Next Major Version` and in the version field enter `1.1.3`.
+	- `Exact Version` and in the version field enter `1.1.4`.
+	- `Up to Next Major Version` and in the version field enter `1.1.4`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
@@ -78,7 +76,7 @@ sudo gem install cocoapods
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
-    pod 'MopinionSDK', '>= 1.1.3'
+    pod 'MopinionSDK', '>= 1.1.4'
 end
 ```
 

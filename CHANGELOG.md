@@ -1,5 +1,15 @@
 # Changelog for MopinionSDK iOS
 
+# 1.1.3
+- Implements tooltip-questionmark icon/button in elements. Supported from iOS 13.
+- Implements link element.
+- Implements multimedia element.
+- Instead of matching only exact iOS versions like 17.5.1, you can now specify major or minor iOS version families. So specifying iOS 17 or 17.5 will now also match version 17.5.1.
+- Navigation skips over empty pages. Also submits the form if it reaches the last page and that has no visible blocks.
+- Fix: no crash on empty form.
+- Fix: do not require invisible contact fields. 
+- Fixed an issue with proactive events that showed a form on iOS despite that only android was specified as target os. 
+
 # 1.1.2
 - Numeric rating element now highlights only 1 cell.
 - From the form load and submit process, removed 2 time-out alerts that were in English and non-user configurable.
