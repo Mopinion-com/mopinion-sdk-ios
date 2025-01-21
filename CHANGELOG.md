@@ -1,5 +1,12 @@
 # Changelog for MopinionSDK iOS
 
+# 1.1.4
+- New behaviour for the deployment condition "Show only to a percentage of users". Now a percentage value of 0% will not show the associated form.
+- Fixed a display bug for long forms with multiple choice (Radio buttons or check box) using "show as buttons". Items that were not selected could sometimes display a small circular tick mark.
+- Fixed some situations with multiple choice where the "other option" box did not fully display.
+- Radio buttons now preserve the text entered in the "other option" box when selecting another radio item and selecting the "other option" radio item again.
+- When showing a webview, the SDK no longer clears all cookies. 
+
 # 1.1.3
 - Implements tooltip-questionmark icon/button in elements. Supported from iOS 13.
 - Implements link element.
