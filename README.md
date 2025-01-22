@@ -22,20 +22,19 @@ Other Mopinion SDK's are also available:
  - [2.4 Using callback mode](#callback-mode)
 - [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.1.4
+## Release notes for version 1.2.0
 
-### New in 1.1.4
-- New behaviour for the deployment condition "Show only to a percentage of users". It supported values from 1-100%, any other value behaved like 100%; starting a session and triggering only again after the number of days as specified by the deployment condition "Refresh session/condition settings per visitor after .. days". <br>Now a percentage value of 0% will not show the associated form and not start a session. Effectively it disables the form until a non-zero percentage is set for this condition.
+### New in 1.2.0
+- Implemented Mopinion Metrics for in-app forms.
 
-### Changes in 1.1.4
-- Fixed a display bug for long forms with multiple choice (Radio buttons or check box) using "show as buttons". Items that were not selected could sometimes display a small circular tick mark. Scrolling in and out of view made it (dis)appear at random.
-- Fixed some situations with multiple choice where the "other option" box did not fully display.
-- Radio buttons now preserve the text entered in the "other option" box when selecting another radio item and selecting the "other option" radio item again.
-- When showing a webview, the SDK no longer clears all cookies. So app-wide cookies for other webviews within the app are not affected.
+### Changes in 1.2.0
+- Reworked deployment condition logic: Now passive triggers will respect all deployment conditions. Passive triggers ignore the session ("Refresh condition settings per visitor after {x} days"), except for when the condition `Show only to a percentage of users` is set. Previously, passive triggers in the sdk always ignored session and all deployment conditions.
+- Fixed a situation where a form would never show if in the deployment editor a condition was set to iOS without a version number.
+- Fixed: allow short press to open external links. 
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods.
-- Built with Xcode 15.4, tested on iOS 17.
+- Built with Xcode 15.4, tested on iOS 18.
 
 <br>
 
@@ -53,8 +52,8 @@ After that you can optionally remove the `<your-project-name>.xcworkspace` if it
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Exact Version` and in the version field enter `1.1.4`.
-	- `Up to Next Major Version` and in the version field enter `1.1.4`.
+	- `Exact Version` and in the version field enter `1.2.0`.
+	- `Up to Next Major Version` and in the version field enter `1.2.0`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
@@ -76,7 +75,7 @@ sudo gem install cocoapods
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
-    pod 'MopinionSDK', '>= 1.1.4'
+    pod 'MopinionSDK', '>= 1.2.0'
 end
 ```
 
@@ -441,9 +440,10 @@ Login to your Mopinion account and go to Data collection, Deployments to use thi
 
 The custom defined events can be used in combination with rules/conditions:
 
-* trigger: `passive` or `proactive`. A passive form always shows when the event is triggered and the trigger conditions are met. A proactive form only shows once, you can set the refresh duration after which the form should show again. 
+* **trigger**: `passive` or `proactive`. A proactive trigger can show its form only once; you can set the refresh duration after which the trigger can fire again. A passive trigger behaves almost the same, but can fire every time as it ignores the refresh duration (except when the percentage condition is set)
+* **refresh duration**: the number of days to wait before the trigger can fire again in an app instance, specified by the setting "Refresh condition settings per visitor after {x} days". 
 * submit: allow opening a proactive form until it has been submitted at least once. This affects the trigger rule, to allow opening a form more than once. Support for this appeared in SDK version 0.4.3.
-* percentage (proactive trigger): % of users that should see the form
-* date: only show the form at, after or before a specific date or date range
-* time: only show the form at, after or before a specific time or time range
-* target: only show the form for a specific OS (iOS or Android) and optional list of versions.
+* **percentage**: % of users that should see the form. This setting makes the trigger fire once per refresh duration, even if no form was shown or it is a passive trigger.
+* **date**: only show the form at, after or before a specific date or date range
+* **time**: only show the form at, after or before a specific time or time range
+* **target**: only show the form for a specific OS (iOS or Android) and optional list of versions.
