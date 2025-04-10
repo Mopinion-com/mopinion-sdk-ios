@@ -1,5 +1,11 @@
 # Changelog for MopinionSDK iOS
 
+# 1.2.0
+- New: Implemented Mopinion Metrics for in-app forms.
+- Reworked deployment condition logic: Now passive triggers will respect all deployment conditions. Passive triggers ignore the session ("Refresh condition settings per visitor after {x} days"), except for when the condition `Show only to a percentage of users` is set. Previously, passive triggers in the sdk always ignored session and all deployment conditions.
+- Fixed a situation where a form would never show if in the deployment editor a condition was set to iOS without a version number.
+- Fixed: allow short press to open external links.
+
 # 1.1.4
 - New behaviour for the deployment condition "Show only to a percentage of users". Now a percentage value of 0% will not show the associated form.
 - Fixed a display bug for long forms with multiple choice (Radio buttons or check box) using "show as buttons". Items that were not selected could sometimes display a small circular tick mark.
