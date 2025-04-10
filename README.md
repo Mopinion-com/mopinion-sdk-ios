@@ -6,8 +6,7 @@ For this you can include the SDK as a Framework in your Xcode project.
 Other Mopinion SDK's are also available:
 
 - [iOS web SDK](https://github.com/mopinion-com/mopinion-sdk-ios-web)
-- [Android SDK](https://github.com/mopinion-com/mopinion-sdk-android)
-- [Android web SDK](https://github.com/mopinion-com/mopinion-sdk-android-web)
+- [Android native and web SDK](https://github.com/mopinion-com/mopinion-sdk-android)
 
 ### Contents
 
@@ -22,19 +21,15 @@ Other Mopinion SDK's are also available:
  - [2.4 Using callback mode](#callback-mode)
 - [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.2.0
+## Release notes for version 1.2.1
 
-### New in 1.2.0
-- Implemented Mopinion Metrics for in-app forms.
-
-### Changes in 1.2.0
-- Reworked deployment condition logic: Now passive triggers will respect all deployment conditions. Passive triggers ignore the session ("Refresh condition settings per visitor after {x} days"), except for when the condition `Show only to a percentage of users` is set. Previously, passive triggers in the sdk always ignored session and all deployment conditions.
-- Fixed a situation where a form would never show if in the deployment editor a condition was set to iOS without a version number.
-- Fixed: allow short press to open external links. 
+### Fixes in 1.2.1
+- Fixed a retain cycle with the delegate or calling uiviewcontroller.
+- Fixed the deployment condition "Show only on specific OS (and OS version)" to also work for versions specified with leading/trailing spaces.
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods.
-- Built with Xcode 15.4, tested on iOS 18.
+- Built with Xcode 16.3, tested on iOS 18.
 
 <br>
 
@@ -42,18 +37,18 @@ Other Mopinion SDK's are also available:
 
 Install the Mopinion Mobile SDK Framework via either the Swift Package Manager or the popular dependency manager [Cocoapods](https://cocoapods.org).
 
-### <a name="install-spm">1.1 Install using Swift Package Manager in Xcode 15</a>
+### <a name="install-spm">1.1 Install using Swift Package Manager in Xcode 16</a>
 1. If you no longer want to use CocoaPods for your project, then in terminal, at the root folder of your project execute: <br>
 `pod deintegrate` <br>
 After that you can optionally remove the `<your-project-name>.xcworkspace` if it is no longer needed.
 
 2. Open your project's `<your-project-name>.xcodeproj` file in Xcode.
-3. In Xcode 15, from the menu, select `File -> Add Package Dependencies…`.
+3. In Xcode, from the menu, select `File -> Add Package Dependencies…`.
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Exact Version` and in the version field enter `1.2.0`.
-	- `Up to Next Major Version` and in the version field enter `1.2.0`.
+	- `Exact Version` and in the version field enter `1.2.1`.
+	- `Up to Next Major Version` and in the version field enter `1.2.1`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
@@ -75,7 +70,7 @@ sudo gem install cocoapods
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
-    pod 'MopinionSDK', '>= 1.2.0'
+    pod 'MopinionSDK', '>= 1.2.1'
 end
 ```
 
