@@ -1,5 +1,9 @@
 # Changelog for MopinionSDK iOS
 
+# 1.2.1
+- Fixed a retain cycle with the delegate or calling uiviewcontroller.
+- Fixed the deployment condition "Show only on specific OS (and OS version)" to also work for versions specified with leading/trailing spaces.
+
 # 1.2.0
 - New: Implemented Mopinion Metrics for in-app forms.
 - Reworked deployment condition logic: Now passive triggers will respect all deployment conditions. Passive triggers ignore the session ("Refresh condition settings per visitor after {x} days"), except for when the condition `Show only to a percentage of users` is set. Previously, passive triggers in the sdk always ignored session and all deployment conditions.

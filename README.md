@@ -22,15 +22,26 @@ Other Mopinion SDK's are also available:
  - [2.5 Using callback mode](#callback-mode)
 - [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.2.1
+## Release notes for version 1.3.0
 
-### Fixes in 1.2.1
-- Fixed a retain cycle with the delegate or calling uiviewcontroller.
-- Fixed the deployment condition "Show only on specific OS (and OS version)" to also work for versions specified with leading/trailing spaces.
+### New in 1.3.0
+- Extended methods to open native forms in dark or light mode.
+- Forms can change their colour scheme to OS-setting changes.
+- Comes with dark variants for our standard form themes.
+- Some colors (Bar, CES, Emoji, Star and Thumbs) were adjusted to meet WCAG 2.1 contrast requirements.
+- New date picker for date fields.
+
+### Fixes in 1.3.0
+- Fixed CES submit values, they were off by one.
+- Fixed Thumb submit values when using custom labels, now they will also be flagged as positive or negative in the feedback inbox.
+- Fixed reverse NPS submit values, they reflected the non-reversed score.
+- Fixed VoiceOver support for the page navigation and submit buttons.
+- VoiceOver will now also read emoji that do not show their labels.
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods.
-- Built with Xcode 16.3, tested on iOS 18.
+- Built with Xcode 26.2, tested on iOS 18 and iOS/iPadOS 26.2 in iOS 18 compatibility mode.
+- In some cases, the Xcode iOS 26 simulators may render views with unexpected height, position or decorations. Please verify the appearance on physical devices.
 
 <br>
 
@@ -38,7 +49,7 @@ Other Mopinion SDK's are also available:
 
 Install the Mopinion Mobile SDK Framework via either the Swift Package Manager or the popular dependency manager [Cocoapods](https://cocoapods.org).
 
-### <a name="install-spm">1.1 Install using Swift Package Manager in Xcode 16</a>
+### <a name="install-spm">1.1 Install using Swift Package Manager in Xcode 26</a>
 1. If you no longer want to use CocoaPods for your project, then in terminal, at the root folder of your project execute: <br>
 `pod deintegrate` <br>
 After that you can optionally remove the `<your-project-name>.xcworkspace` if it is no longer needed.
@@ -48,8 +59,8 @@ After that you can optionally remove the `<your-project-name>.xcworkspace` if it
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Exact Version` and in the version field enter `1.2.1`.
-	- `Up to Next Major Version` and in the version field enter `1.2.1`.
+	- `Exact Version` and in the version field enter `1.3.0`.
+	- `Up to Next Major Version` and in the version field enter `1.3.0`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
@@ -71,7 +82,7 @@ sudo gem install cocoapods
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
-    pod 'MopinionSDK', '>= 1.2.1'
+    pod 'MopinionSDK', '>= 1.3.0'
 end
 ```
 
@@ -122,22 +133,27 @@ The event could be a touch of a button, at the end of a transaction, proactive, 
 ###### Available from SDK version: 1.3.0
 Previous versions of the SDK always opened forms in light mode and did not change appearance to dark mode.
 
-SDK version 1.3.0 introduced automatic support for dark mode. Forms that are designed for dark mode will automatically show the designed behaviour, others remain light. So no code changes are needed.
+SDK version 1.3.0 introduced automatic support for dark mode. With the default setting, forms that are designed for dark mode will automatically show the designed behaviour, others remain light. So no code changes are needed.
 
-But for other cases, use the `configuration.setColorScheme()` to control the color scheme behaviour:
+But for other cases, use the `configuration.setColorScheme(_ colorSchemeMode: ColorScheme)` with the `ColorScheme` parameter to control the color scheme behaviour. You can specify this globally (static) or per `event()` call.
 
-```swift
-func MopinionSDK.configuration.setColorScheme(_ colorSchemeMode: ColorScheme)
-```
-
-ColorScheme parameter values:
+Supported ColorScheme parameter values to `configuration.setColorScheme()`:
 
 Value|Description
 ---|---
 .auto|Default. Forms with a custom dark mode design theme in the Form Editor web application allow the os to select the starting mode and change apparance. <br>Forms without dark mode design will open in light mode and do not change appearance.
 .dark|Forms always open in dark mode and do not change appearance.
 .light|Forms always open in light mode and do not change appearance.
-.system|Use what the device OS has set for light or dark mode and allow the OS to change of appearance of forms. Uses a default dark mode theme if a form has no dark mode form design settings.
+.system|Use what the device OS has set for light or dark mode and allow the OS to change appearance of forms. Uses a default dark mode theme if a form has no dark mode form design settings.
+
+### 2.2.1 Set dark mode via the global configuration
+###### Available from SDK version: 1.3.0
+
+The SDK has a global configuration, which you can use to globally set the ColorScheme mode:
+
+```swift
+func MopinionSDK.configuration.setColorScheme(_ colorSchemeMode: ColorScheme)
+```
 
 The default is `auto` which makes the behaviour backwards compatible with previous SDK versions and automatically supports dark mode.
 
@@ -151,6 +167,42 @@ import MopinionSDK
 MopinionSDK.configuration.setColorScheme(.system)
 MopinionSDK.load("abcd1234")
 ...
+```
+
+### 2.2.2 Method variants with a configuration parameter to specify dark mode
+###### Available from SDK version: 1.3.0
+
+Apart from the aforementioned global configuration, you can also pass a temporary MopinionConfiguration via the parameter `configuration` to the following new method variants:
+
+```swift
+func event(parentView: event: configuration:)
+func event(parentView: event: configuration: onCallbackEvent: onCallbackEventError:)
+func event(parentView: event: configuration: onCallbackEventDelegate:)
+func event(parentView: event: configuration: onCallbackEventDelegate:  onCallbackEventErrorDelegate:)
+
+func evaluate(event: configuration: onEvaluateDelegate:)
+
+func openFormAlways(parentView: formKey: forEvent: configuration:)
+```
+
+The passed temporary configuration overrides the static configuration for the duration of that call, but doesn't modify it.
+
+Usage: you obtain a copy of the general configuration object, modify it to your needs and pass it to the parameter `configuration:` of selected method variants.
+
+Example:
+
+```swift
+import MopinionSDK
+...
+MopinionSDK.load("abcd1234")
+...
+// only this call will open a form in dark mode
+var tmpConfig = MopinionSDK.configuration
+tmpConfig.setColorScheme(.dark)
+MopinionSDK.event(self, "_button", configuration: tmpConfig)
+...
+// other calls still implicitly use the static MopinionSDK.configuration, which by default is .auto, so this form would open in light mode
+MopinionSDK.event(self, "_button")
 ```
 
 
@@ -491,7 +543,7 @@ Login to your Mopinion account and go to Data collection, Deployments to use thi
 The custom defined events can be used in combination with rules/conditions:
 
 * **trigger**: `passive` or `proactive`. A proactive trigger can show its form only once; you can set the refresh duration after which the trigger can fire again. A passive trigger behaves almost the same, but can fire every time as it ignores the refresh duration (except when the percentage condition is set)
-* **refresh duration**: the number of days to wait before the trigger can fire again in an app instance, specified by the setting "Refresh condition settings per visitor after {x} days". 
+* **refresh duration**: the number of days to wait before the trigger can fire again in an app instance, specified by the setting "Refresh condition settings per visitor after {x} days". Sometimes also referred to as "session".
 * submit: allow opening a proactive form until it has been submitted at least once. This affects the trigger rule, to allow opening a form more than once. Support for this appeared in SDK version 0.4.3.
 * **percentage**: % of users that should see the form. This setting makes the trigger fire once per refresh duration, even if no form was shown or it is a passive trigger.
 * **date**: only show the form at, after or before a specific date or date range
