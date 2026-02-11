@@ -16,20 +16,32 @@ Other Mopinion SDK's are also available:
  - [1.2 Install using CocoaPods](#install-cocoapods)
 - [2. Implement the SDK](#implement)
  - [2.1 Display a form](#display)
- - [2.2 Submit extra data](#extra-data)
- - [2.3 Evaluate if a form will open](#evaluate-conditions)
- - [2.4 Using callback mode](#callback-mode)
+ - [2.2 Configure dark mode](#dark-mode)
+ - [2.3 Submit extra data](#extra-data)
+ - [2.4 Evaluate if a form will open](#evaluate-conditions)
+ - [2.5 Using callback mode](#callback-mode)
 - [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.2.1
+## Release notes for version 1.3.0
 
-### Fixes in 1.2.1
-- Fixed a retain cycle with the delegate or calling uiviewcontroller.
-- Fixed the deployment condition "Show only on specific OS (and OS version)" to also work for versions specified with leading/trailing spaces.
+### New in 1.3.0
+- Extended methods to open native forms in dark or light mode.
+- Forms can change their colour scheme to OS-setting changes.
+- Comes with dark variants for our standard form themes.
+- Some colors (Bar, CES, Emoji, Star and Thumbs) were adjusted to meet WCAG 2.1 contrast requirements.
+- New date picker for date fields.
+
+### Fixes in 1.3.0
+- Fixed CES submit values, they were off by one.
+- Fixed Thumb submit values when using custom labels, now they will also be flagged as positive or negative in the feedback inbox.
+- Fixed reverse NPS submit values, they reflected the non-reversed score.
+- Fixed VoiceOver support for the page navigation and submit buttons.
+- VoiceOver will now also read emoji that do not show their labels.
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods.
-- Built with Xcode 16.3, tested on iOS 18.
+- Built with Xcode 26.2, tested on iOS 18 and iOS/iPadOS 26.2 in iOS 18 compatibility mode.
+- In some cases, the Xcode iOS 26 simulators may render views with unexpected height, position or decorations. Please verify the appearance on physical devices.
 
 <br>
 
@@ -37,7 +49,7 @@ Other Mopinion SDK's are also available:
 
 Install the Mopinion Mobile SDK Framework via either the Swift Package Manager or the popular dependency manager [Cocoapods](https://cocoapods.org).
 
-### <a name="install-spm">1.1 Install using Swift Package Manager in Xcode 16</a>
+### <a name="install-spm">1.1 Install using Swift Package Manager in Xcode 26</a>
 1. If you no longer want to use CocoaPods for your project, then in terminal, at the root folder of your project execute: <br>
 `pod deintegrate` <br>
 After that you can optionally remove the `<your-project-name>.xcworkspace` if it is no longer needed.
@@ -47,8 +59,8 @@ After that you can optionally remove the `<your-project-name>.xcworkspace` if it
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Exact Version` and in the version field enter `1.2.1`.
-	- `Up to Next Major Version` and in the version field enter `1.2.1`.
+	- `Exact Version` and in the version field enter `1.3.0`.
+	- `Up to Next Major Version` and in the version field enter `1.3.0`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
@@ -70,7 +82,7 @@ sudo gem install cocoapods
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
-    pod 'MopinionSDK', '>= 1.2.1'
+    pod 'MopinionSDK', '>= 1.3.0'
 end
 ```
 
@@ -117,11 +129,90 @@ The event could be a touch of a button, at the end of a transaction, proactive, 
 
 <br>
 
-## <a name="extra-data">2.2 Submitting extra data</a>
+## <a name="dark-mode">2.2 Configure dark mode</a>
+###### Available from SDK version: 1.3.0
+Previous versions of the SDK always opened forms in light mode and did not change appearance to dark mode.
+
+SDK version 1.3.0 introduced automatic support for dark mode. With the default setting, forms that are designed for dark mode will automatically show the designed behaviour, others remain light. So no code changes are needed.
+
+But for other cases, use the `configuration.setColorScheme(_ colorSchemeMode: ColorScheme)` with the `ColorScheme` parameter to control the color scheme behaviour. You can specify this globally (static) or per `event()` call.
+
+Supported ColorScheme parameter values to `configuration.setColorScheme()`:
+
+Value|Description
+---|---
+.auto|Default. Forms with a custom dark mode design theme in the Form Editor web application allow the os to select the starting mode and change apparance. <br>Forms without dark mode design will open in light mode and do not change appearance.
+.dark|Forms always open in dark mode and do not change appearance.
+.light|Forms always open in light mode and do not change appearance.
+.system|Use what the device OS has set for light or dark mode and allow the OS to change appearance of forms. Uses a default dark mode theme if a form has no dark mode form design settings.
+
+### 2.2.1 Set dark mode via the global configuration
+###### Available from SDK version: 1.3.0
+
+The SDK has a global configuration, which you can use to globally set the ColorScheme mode:
+
+```swift
+func MopinionSDK.configuration.setColorScheme(_ colorSchemeMode: ColorScheme)
+```
+
+The default is `auto` which makes the behaviour backwards compatible with previous SDK versions and automatically supports dark mode.
+
+Configuration changes affect all following calls to the MopinionSDK, not any currently open form. It can be set at any time before a `event()` call or the `load()` call.
+
+Example:
+
+```swift
+import MopinionSDK
+...
+MopinionSDK.configuration.setColorScheme(.system)
+MopinionSDK.load("abcd1234")
+...
+```
+
+### 2.2.2 Method variants with a configuration parameter to specify dark mode
+###### Available from SDK version: 1.3.0
+
+Apart from the aforementioned global configuration, you can also pass a temporary MopinionConfiguration via the parameter `configuration` to the following new method variants:
+
+```swift
+func event(parentView: event: configuration:)
+func event(parentView: event: configuration: onCallbackEvent: onCallbackEventError:)
+func event(parentView: event: configuration: onCallbackEventDelegate:)
+func event(parentView: event: configuration: onCallbackEventDelegate:  onCallbackEventErrorDelegate:)
+
+func evaluate(event: configuration: onEvaluateDelegate:)
+
+func openFormAlways(parentView: formKey: forEvent: configuration:)
+```
+
+The passed temporary configuration overrides the static configuration for the duration of that call, but doesn't modify it.
+
+Usage: you obtain a copy of the general configuration object, modify it to your needs and pass it to the parameter `configuration:` of selected method variants.
+
+Example:
+
+```swift
+import MopinionSDK
+...
+MopinionSDK.load("abcd1234")
+...
+// only this call will open a form in dark mode
+var tmpConfig = MopinionSDK.configuration
+tmpConfig.setColorScheme(.dark)
+MopinionSDK.event(self, "_button", configuration: tmpConfig)
+...
+// other calls still implicitly use the static MopinionSDK.configuration, which by default is .auto, so this form would open in light mode
+MopinionSDK.event(self, "_button")
+```
+
+
+## <a name="extra-data">2.3 Submitting extra data</a>
 
 Your app can send extra (string based) data to your form. 
 
-### 2.2.1 Use the data() method
+### 2.3.1 Use the data() method
+###### Available from SDK version: 0.3.1
+
 SDK version `0.3.1` introduced the `data()` method to supply a key and a value.
 
 The data should be added before the `event()` method is called if you want to include the data in the form that comes up for that event.
@@ -145,7 +236,8 @@ MopinionSDK.event(self, "_button")
 
 Note: In the set of meta data, the keys are unique. If you re-use a key, the previous value for that key will be overwritten.
 
-### 2.2.2 clear extra data
+### 2.3.2 clear extra data
+###### Available from SDK version: 0.3.4
 
 From version `0.3.4` it's possible to remove all or a single key-value pair from the extra data previously supplied with the `data(key,value)` method.
 To remove a single key-value pair use this method:
@@ -172,20 +264,24 @@ MopinionSDK.removeData()
 
 <br>
 
-## <a name="evaluate-conditions">2.3 Evaluate if a form will open</a>
+## <a name="evaluate-conditions">2.4 Evaluate if a form will open</a>
+###### Available from SDK version: 0.4.6
+
 The event() method of the SDK autonomously checks deployment conditions and opens a form, or not.
 
 From SDK version `0.4.6` you can use the evaluate() and related methods to give your app more control on opening a form for proactive events or take actions when no form would have opened.
 
 It can also be used on passive events, but such forms will always be allowed to open.
 
-### 2.3.1 Procedure overview
+### 2.4.1 Procedure overview
 
 1. Call the `evaluate()` method and pass it the delegate object that implements the `MopinionOnEvaluateDelegate` protocol.
 2. In your delegate's callback method `mopinionOnEvaluateHandler()`, check the response parameters and retrieve the `formKey` if there is any.
 3. Optionally, pass the `formKey` to the method `openFormAlways()` to open your form directly, ignoring any conditions in the deployment.
 
-### 2.3.2 evaluate() method
+### 2.4.2 evaluate() method
+###### Available from SDK version: 0.4.6
+
 Evaluates whether or not a form would have opened for the specified event. If without errors, the delegate object will receive the `mopinionOnEvaluateHandler()` call with the response.
 
 ```swift
@@ -197,7 +293,9 @@ Parameters:
 * `event`: The name of the event as definied in the deployment. For instance "_button".
 * `onEvaluateDelegate `: The object implementing the `MopinionOnEvaluateDelegate` protocol to handle the `mopinionOnEvaluateHandler()` callback method.
 
-### 2.3.3 mopinionOnEvaluateHandler() method
+### 2.4.3 mopinionOnEvaluateHandler() method
+###### Available from SDK version: 0.4.6
+
 Method where the app receives the response of the evaluate call. Defined by the `MopinionOnEvaluateDelegate` protocol. Note that in case of any system errors this may not be called at all.
 
 ```swift
@@ -210,7 +308,9 @@ Parameters:
 * `formKey`: identifying key of the first feedback form found associated with the event. Only one formKey will be selected even if multiple forms matched the event name in the deployment.
 * `response`: optional dictionary object for extra response details on success/failure and forms. Reserved for future extensions.
 
-### 2.3.4 openFormAlways() method
+### 2.4.4 openFormAlways() method
+###### Available from SDK version: 0.4.6
+
 Opens the form specified by the formkey for the event, regardless of any proactive conditions set in the deployment.
 
 ```swift
@@ -223,7 +323,7 @@ Parameters:
 * `forEvent`: The same event as passed to the `evaluate()` call. For instance "_button".
 
 
-### 2.3.5 Example of using evaluate()
+### 2.4.5 Example of using evaluate()
 This snippet of pseudo code highlights the key points on how the aforementioned procedure fits together to implement the `MopinionOnEvaluateDelegate` protocol.
 
 ```swift
@@ -262,14 +362,16 @@ class ViewController: UIViewController, MopinionOnEvaluateDelegate {
 
 <br>
 
-## <a name="callback-mode">2.4 Using callback mode</a>
+## <a name="callback-mode">2.5 Using callback mode</a>
+###### Available from SDK version: 0.5.0
+
 By default the SDK manages the feedback form autonomously without further involving your app. 
 SDK version `0.5.0` introduced callbacks to inform your code of certain actions (MopinionCallbackEvent). 
 
 Provide a callback handler to receive a response, containing either data or possible error information. 
 
 
-### 2.4.1 Procedure overview
+### 2.5.1 Procedure overview
 
 1. Call the `event()` method and pass it a callback method that implements the `MopinionCallbackEventDelegate.onMopinionEvent` protocol.
 2. In your callback method `onMopinionEvent()`, check the kind of `mopinionEvent` and optionally call `didSucceed()` or `hasErrors()` on the `response` to check for errors.
@@ -281,7 +383,9 @@ You can also provide an optional error-callback handler to `event()` to seperate
 
 <br>
 
-### 2.4.2 Callback variants of the `event()` method
+### 2.5.2 Callback variants of the `event()` method
+###### Available from SDK version: 0.5.0
+
 Triggers an event you defined in your deployment to open a form and receive MopinionCallbackEvent callbacks. If you don't specify a failHandler, the callback handler will also receive error responses.
 
 
@@ -302,7 +406,8 @@ Parameters:
 
 <br>
 
-### 2.4.3 Callback methods `onMopinionEvent()` and `onMopinionEventError()`
+### 2.5.3 Callback methods `onMopinionEvent()` and `onMopinionEventError()`
+###### Available from SDK version: 0.5.0
 
 These methods you implement in your code to receive MopinionCallbackEvents. They have the same parameters to pass you a response with optional additional information. 
 What information is provided depends on the type of `MopinionCallbackEvent` and its origin.
@@ -324,7 +429,9 @@ Parameters:
 
 <br>
 
-### 2.4.4 MopinionResponse object
+### 2.5.4 MopinionResponse object
+###### Available from SDK version: 0.5.0
+
 The data collection present in this object depends on the kind of MopinionCallbackEvent and its origin. The data is a key-value collection. Both data and errors can be missing. The response object contains methods to inspect and retrieve them. 
 
 
@@ -380,7 +487,7 @@ NO\_FORM\_WILL\_OPEN|any other|Other error prevented loading the form
 
 <br>
 
-### 2.4.5 Callback handler example to run code after send
+### 2.5.5 Callback handler example to run code after send
 Pseudo code to show the usage of the `event()` callback with closures and some involved objects to implement running code after send.
 You must wait for the form to be closed after send before running any code affecting your own UI.
 
@@ -436,7 +543,7 @@ Login to your Mopinion account and go to Data collection, Deployments to use thi
 The custom defined events can be used in combination with rules/conditions:
 
 * **trigger**: `passive` or `proactive`. A proactive trigger can show its form only once; you can set the refresh duration after which the trigger can fire again. A passive trigger behaves almost the same, but can fire every time as it ignores the refresh duration (except when the percentage condition is set)
-* **refresh duration**: the number of days to wait before the trigger can fire again in an app instance, specified by the setting "Refresh condition settings per visitor after {x} days". 
+* **refresh duration**: the number of days to wait before the trigger can fire again in an app instance, specified by the setting "Refresh condition settings per visitor after {x} days". Sometimes also referred to as "session".
 * submit: allow opening a proactive form until it has been submitted at least once. This affects the trigger rule, to allow opening a form more than once. Support for this appeared in SDK version 0.4.3.
 * **percentage**: % of users that should see the form. This setting makes the trigger fire once per refresh duration, even if no form was shown or it is a passive trigger.
 * **date**: only show the form at, after or before a specific date or date range
