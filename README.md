@@ -22,26 +22,22 @@ Other Mopinion SDK's are also available:
  - [2.5 Using callback mode](#callback-mode)
 - [3. Edit triggers](#edit-triggers)
 
-## Release notes for version 1.3.0
+## Release notes for version 1.3.1
 
-### New in 1.3.0
-- Extended methods to open native forms in dark or light mode.
-- Forms can change their colour scheme to OS-setting changes.
-- Comes with dark variants for our standard form themes.
-- Some colors (Bar, CES, Emoji, Star and Thumbs) were adjusted to meet WCAG 2.1 contrast requirements.
-- New date picker for date fields.
+### Known issues
+- In some cases, the Xcode iOS 26 simulators may render views with unexpected height, position or decorations. Please verify the appearance on physical devices if your app opts out of Liquid Glass.
+- If your app does not opt out of Liquid Glass, both iOS 26 devices and simulators may render full-height black or white opaque backdrops behind partial-height feedback forms.
+- The leading horizontal extra margin of the close button is **always** applied on iOS 26, although this extra margin would not be needed for apps that opt out of Liquid Glass.
 
-### Fixes in 1.3.0
-- Fixed CES submit values, they were off by one.
-- Fixed Thumb submit values when using custom labels, now they will also be flagged as positive or negative in the feedback inbox.
-- Fixed reverse NPS submit values, they reflected the non-reversed score.
-- Fixed VoiceOver support for the page navigation and submit buttons.
-- VoiceOver will now also read emoji that do not show their labels.
+### Changes
+- Reworked screenshot implementation for iPadOS 26 support.
+- Allow default autocorrection for general and dropdown/radio/checkbox text input fields.
+- Adapt leading horizontal margin of close button for iOS 26.
+- The page navigation/action buttons were fixed width, now resize to their content.
 
 ### Remarks
 - This readme applies to both the CocoaPods and Swift Package Manager distribution, as the latter uses the same binaries as the GitHub release for CocoaPods.
-- Built with Xcode 26.2, tested on iOS 18 and iOS/iPadOS 26.2 in iOS 18 compatibility mode.
-- In some cases, the Xcode iOS 26 simulators may render views with unexpected height, position or decorations. Please verify the appearance on physical devices.
+- Built with Xcode 26.3, tested on iOS 18 and iOS/iPadOS 26.4 in iOS 18 compatibility mode.
 
 <br>
 
@@ -59,8 +55,8 @@ After that you can optionally remove the `<your-project-name>.xcworkspace` if it
 The Swift Package Collections panel appears. 
 4. In the search field of the panel, enter `https://github.com/mopinion-com/mopinion-sdk-ios-swiftpm` and press enter.
 5. From the drop-down button `Dependency Rule`, choose one of the following options:
-	- `Exact Version` and in the version field enter `1.3.0`.
-	- `Up to Next Major Version` and in the version field enter `1.3.0`.
+	- `Exact Version` and in the version field enter `1.3.1`.
+	- `Up to Next Major Version` and in the version field enter `1.3.1`.
 6. Click the button `Add Package`. A package product selection panel appears.
 7. Choose `MopinionSDK` and click the button `Add Package`. 
 8. If Xcode 14.2 shows a warning `PackageIndex.findPackages failed: featureDisabled`, then clean your project, close the project and open your project again in Xcode. The warning will have disappeared.
@@ -82,7 +78,7 @@ sudo gem install cocoapods
 platform :ios, '12.0'
 use_frameworks!
 target '<YOUR TARGET>' do
-    pod 'MopinionSDK', '>= 1.3.0'
+    pod 'MopinionSDK', '>= 1.3.1'
 end
 ```
 
@@ -131,7 +127,7 @@ The event could be a touch of a button, at the end of a transaction, proactive, 
 
 ## <a name="dark-mode">2.2 Configure dark mode</a>
 ###### Available from SDK version: 1.3.0
-Previous versions of the SDK always opened forms in light mode and did not change appearance to dark mode.
+Earlier versions of the SDK always opened forms in light mode and did not change appearance to dark mode.
 
 SDK version 1.3.0 introduced automatic support for dark mode. With the default setting, forms that are designed for dark mode will automatically show the designed behaviour, others remain light. So no code changes are needed.
 

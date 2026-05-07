@@ -1,5 +1,17 @@
 # Changelog for MopinionSDK iOS
 
+# 1.3.0
+- Introduces support for dark mode. Backwards compatible; default configuration for existing forms remains light mode only.
+- Forms can change their colour scheme to OS-setting changes.
+- Comes with built-in dark variants for our standard form themes.
+- Some colors (Bar, CES, Emoji, Star and Thumbs) were adjusted to meet WCAG 2.1 contrast requirements.
+- New date picker for date fields.
+- Fixed CES submit values, they were off by one.
+- Fixed Thumb submit values when using custom labels, now they will also be flagged as positive or negative in the feedback inbox.
+- Fixed reverse NPS submit values, they reflected the non-reversed score.
+- Fixed VoiceOver support for the page navigation and submit buttons.
+- Fixed: VoiceOver will now also read emoji that do not show their labels.
+
 # 1.2.1
 - Fixed a retain cycle with the delegate or calling uiviewcontroller.
 - Fixed the deployment condition "Show only on specific OS (and OS version)" to also work for versions specified with leading/trailing spaces.
@@ -64,19 +76,4 @@
 - Improved form load time-out handling.
 
 # 1.0.0
-- New fully native implementation that doesn't require any react-native.
-- Built with Xcode 14.3, tested on iOS 16.
-- Support for partial height forms.
-- Minimum iOS version raised to 12.
-- Introduces new state `NO_FORM_WILL_OPEN` for callbacks.
-- On iOS 13 and newer, all slide-in forms, including full or partial height, will open as Page Sheet, other forms will open full-screen.
-- Color and larger size of thumbs.
-- Fully implemented auto-submit.
-- Appearance: replaced back arrow by closing cross.
-- Support for automatic page navigation and hiding page navigation buttons.
-- Introduces new method `semanticVersionString()`.
-- Overall larger font size.
-
-# 0.7.0
-- Depends on react-native, will be rebranded "Classic" SDK after the introduction of our new 1.0.0 SDK.
-- Introduces support for Mopinion Metrics.
+See the [historic changelog](CHANGELOG-upto-1.0.0.md) for earlier versions.
